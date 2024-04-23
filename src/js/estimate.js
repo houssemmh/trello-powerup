@@ -7,6 +7,7 @@ window.estimate.addEventListener("submit", function (event) {
     .set("card", "shared", "estimate", window.estimateSize.value)
     .then(function () {
       t.closePopup();
+      console.log("popup closed")
     });
 });
 
