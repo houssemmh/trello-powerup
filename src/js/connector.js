@@ -6,6 +6,8 @@ import localizationSettings from './modules/localizationSettings';
 const { Promise } = window.TrelloPowerUp;
 const REFRESH_INTERVAL = 1800; // 30 minutes in seconds
 
+console.log("money")
+
 const showBadge = (command, type, prefs) => {
   if (command === 'card-badges') {
     return prefs[`${type}-front`] !== false;
