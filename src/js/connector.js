@@ -101,21 +101,19 @@ console.log("money")
 //     return badges;
 //   });
 
-// script.js
-var trello = window.TrelloPowerUp.iframe();
 
 // Initialize the Power-Up
 window.TrelloPowerUp.initialize({
   'card-badges': function(t, options) {
-    return t.card('due', 'name').then(function(card) {
-      if (card.due) {
-        console.log(`Due date for card "${card.name}": ${card.due}`);
-      }
-      return [{
-        icon: '', // Optional: You can provide an icon URL here
-        text: 'Due date loaded', // This is just a placeholder text
-      }];
-    });
+      return t.card('due', 'name').then(function(card) {
+        // Check if the due date is present and log it
+        if (card.due) {
+          console.log(`Due date for card "${card.name}": ${card.due}`);
+        } else {
+          console.log(`No due date set for card "${card.name}".`);
+        }
+        return []; // Return an empty array if no badges are needed
+      });
   }
 }, {
     // Capability to reload after a change is detected
