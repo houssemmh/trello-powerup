@@ -106,24 +106,18 @@ var trello = window.TrelloPowerUp.iframe();
 
 // Initialize the Power-Up
 window.TrelloPowerUp.initialize({
-    'card-badges': function(t, options) {
-        return t.card('due', 'name').then(function(card) {
-            if (card.due) {
-                console.log(`Initial due date for card "${card.name}": ${card.due}`);
-            }
-            return []; // No UI badges needed
-        });
-    }
+  'card-badges': function(t, options) {
+    return t.card('due', 'name').then(function(card) {
+      if (card.due) {
+        console.log(`Due date for card "${card.name}": ${card.due}`);
+      }
+      return [{
+        icon: '', // Optional: You can provide an icon URL here
+        text: 'Due date loaded', // This is just a placeholder text
+      }];
+    });
+  }
 }, {
     // Capability to reload after a change is detected
     refresh: true
-});
-
-// This function is to listen for changes on the due date
-trello.on('card-detail-badges', function() {
-    return trello.card('due', 'name').then(function(card) {
-        if (card.due) {
-            console.log(`Updated due date for card "${card.name}": ${card.due}`);
-        }
-    });
 });
