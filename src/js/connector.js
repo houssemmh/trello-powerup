@@ -101,43 +101,29 @@ const getWeatherBadges = (t, opts) =>
     return badges;
   });
 
-window.TrelloPowerUp.initialize(
-  {
-    // 'card-badges': getWeatherBadges,
-    // 'card-detail-badges': getWeatherBadges,
-    'show-settings': (t) => {
-      return t.popup({
-        title: t.localizeKey('weather-settings'),
-        url: './settings.html',
-        height: 281,
-      });
-    },
-    'card-buttons': function(t, options){
-      return [{
-        icon: 'https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421',
-        text: 'Houssem is rich',
-        callback: function (t) {
-          return t.popup({
-            title: "Estimation",
-            url: "estimate.html",
-          });
+// script.js
+var trello = window.TrelloPowerUp.iframe();
+
+// Initialize the Power-Up
+window.TrelloPowerUp.initialize({
+    'card-badges': function(t, options) {
+        return t.card('due', 'name').then(function(card) {
+            if (card.due) {
+                console.log(`Initial due date for card "${card.name}": ${card.due}`);
+            }
+            return []; // No UI badges needed
+        });
+    }
+}, {
+    // Capability to reload after a change is detected
+    refresh: true
+});
+
+// This function is to listen for changes on the due date
+trello.on('card-detail-badges', function() {
+    return trello.card('due', 'name').then(function(card) {
+        if (card.due) {
+            console.log(`Updated due date for card "${card.name}": ${card.due}`);
         }
-      }];
-    },
-    '*': function(t, opts) {
-      return t.cards('all').then(function(cards) {
-          cards.forEach(card => {
-              console.log(`${card.name}`);
-              t.card(card.id).get('due').then(due => {
-                  if (due) {
-                      console.log(`Due date set for card: ${card.name}`);
-                  }
-              });
-          });
-      });
-  }
-  },
-  {
-    localization: localizationSettings,
-  }
-);
+    });
+});
