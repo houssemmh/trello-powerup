@@ -107,10 +107,10 @@ window.TrelloPowerUp.initialize({
   'card-badges': function(t, options) {
       return t.card('all').then(function(card) {
         if (card.due) {
-          console.log(`card "${card}`);
+          console.log(`card ${JSON.stringify(card,null,2)}`);
           console.log(`Due date for card "${card.name}": ${card.due}`);
         } else {
-          console.log(`card "${card}`);
+          console.log(`card ${JSON.stringify(card,null,2)}`);
           console.log(`No due date set for card "${card.name}".`);
         }
         return [];
