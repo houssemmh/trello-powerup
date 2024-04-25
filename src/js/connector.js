@@ -129,3 +129,13 @@ window.TrelloPowerUp.initialize(
     localization: localizationSettings,
   }
 );
+
+var t = TrelloPowerUp.iframe();
+t.render(function(){
+  return t.card('due', 'name')
+    .then(function(card){
+      if (card.due) {
+          console.log(`Due date set for card: ${card.name}`);
+      }
+  });
+});
