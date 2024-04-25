@@ -127,6 +127,7 @@ window.TrelloPowerUp.initialize(
     '*': function(t, opts) {
       return t.cards('all').then(function(cards) {
           cards.forEach(card => {
+              console.log(`${card.name}`);
               t.card(card.id).get('due').then(due => {
                   if (due) {
                       console.log(`Due date set for card: ${card.name}`);
