@@ -106,12 +106,10 @@ console.log("money")
 window.TrelloPowerUp.initialize({
   'card-badges': function(t, options) {
       return t.card('all').then(function(card) {
-        if (card.due) {
-          console.log(`card ${JSON.stringify(card,null,2)}`);
-          console.log(`Due date for card "${card.name}": ${card.due}`);
+        if (card.due || card.start) {
+          console.log(`"${card.name}": ${card.start} - ${card.due}`);
         } else {
-          console.log(`card ${JSON.stringify(card,null,2)}`);
-          console.log(`No due date set for card "${card.name}".`);
+          // console.log(`No due date set for card "${card.name}".`);
         }
         return [];
       });
