@@ -104,37 +104,15 @@ console.log("money")
 
 
 window.TrelloPowerUp.initialize({
-  'card-badges': async function(t, options) {
-    try {
-      const cards = await t.cards('all');
-      const storedDates = await t.get('board', 'private', 'storedDates', {});
-
-      for (const card of cards) {
-        const previous = storedDates[card.id] || {};
-        const current = {
-          start: card.start,
-          due: card.due
-        };
-
-        // Check if current and previous states differ, including checking for removals
-        if (current.start !== previous.start || current.due !== previous.due) {
-          if (current.start == null || current.due == null) {
-            console.log(`Start/Due dates removed from card "${card.name}"`);
-          } else {
-            console.log(`"${card.name}": ${current.start} - ${current.due}`);
-          }
-          // Update the stored state
-          storedDates[card.id] = current;
+  'card-badges': function(t, options) {
+      return t.card('all').then(function(card) {
+        if (card.due || card.start) {
+          console.log(`"${card.name}": ${card.start} - ${card.due}`);
+        } else {
+          // console.log(`No due date set for card "${card.name}".`);
         }
-      }
-
-      // Save the updated dates back to the board storage
-      await t.set('board', 'private', 'storedDates', storedDates);
-    } catch (error) {
-      console.error('Failed to update card badges:', error);
-    }
-
-    return [];
+        return [];
+      });
   }
 }, {
     refresh: true
