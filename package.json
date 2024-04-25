@@ -54,5 +54,8 @@
       "src/images",
       "src/strings"
     ]
-  }
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }
