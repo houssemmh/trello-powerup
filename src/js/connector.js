@@ -4,6 +4,7 @@ import getConditionKey from './modules/conditions-map';
 import localizationSettings from './modules/localizationSettings';
 
 const { Promise } = window.TrelloPowerUp;
+
 const REFRESH_INTERVAL = 1800; // 30 minutes in seconds
 
 console.log("money")
@@ -102,20 +103,19 @@ console.log("money")
 //   });
 
 
-// Initialize the Power-Up
 window.TrelloPowerUp.initialize({
   'card-badges': function(t, options) {
-      return t.card('due', 'name').then(function(card) {
-        // Check if the due date is present and log it
+      return t.card('all').then(function(card) {
         if (card.due) {
+          console.log(`card "${card}`);
           console.log(`Due date for card "${card.name}": ${card.due}`);
         } else {
+          console.log(`card "${card}`);
           console.log(`No due date set for card "${card.name}".`);
         }
-        return []; // Return an empty array if no badges are needed
+        return [];
       });
   }
 }, {
-    // Capability to reload after a change is detected
     refresh: true
 });
