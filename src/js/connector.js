@@ -103,8 +103,8 @@ const getWeatherBadges = (t, opts) =>
 
 window.TrelloPowerUp.initialize(
   {
-    'card-badges': getWeatherBadges,
-    'card-detail-badges': getWeatherBadges,
+    // 'card-badges': getWeatherBadges,
+    // 'card-detail-badges': getWeatherBadges,
     'show-settings': (t) => {
       return t.popup({
         title: t.localizeKey('weather-settings'),
@@ -124,18 +124,19 @@ window.TrelloPowerUp.initialize(
         }
       }];
     },
+    '*': function(t, opts) {
+      return t.cards('all').then(function(cards) {
+          cards.forEach(card => {
+              t.card(card.id).get('due').then(due => {
+                  if (due) {
+                      console.log(`Due date set for card: ${card.name}`);
+                  }
+              });
+          });
+      });
+  }
   },
   {
     localization: localizationSettings,
   }
 );
-
-var t = TrelloPowerUp.iframe();
-t.render(function(){
-  return t.card('due', 'name')
-    .then(function(card){
-      if (card.due) {
-          console.log(`Due date set for card: ${card.name}`);
-      }
-  });
-});
