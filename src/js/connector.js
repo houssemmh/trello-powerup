@@ -105,15 +105,25 @@ console.log("money")
 
 window.TrelloPowerUp.initialize({
   'card-badges': function(t, options) {
-      return t.card('all').then(function(card) {
-        if (card.due || card.start) {
-          console.log(`"${card.id}" "${card.name}": ${card.start} - ${card.due}`);
-        } else {
-          // console.log(`No due date set for card "${card.name}".`);
-        }
-        return [];
-      });
+    return t.card('all').then(function(card) {
+      return t.get(card.id, 'shared', 'previousDates', { start: null, due: null })
+        .then(function(previousDates) {
+          // Check for changes in the start and due dates
+          const startChanged = card.start !== previousDates.start;
+          const dueChanged = card.due !== previousDates.due;
+
+          // Log changes if any
+          if (startChanged || dueChanged) {
+            console.log(`"${card.id}" "${card.name}": Date changed from ${previousDates.start} - ${previousDates.due} to ${card.start} - ${card.due}`);
+          }
+
+          // Update stored dates
+          t.set(card.id, 'shared', 'previousDates', { start: card.start, due: card.due });
+
+          return [];
+        });
+    });
   }
 }, {
-    refresh: true
+  refresh: true
 });
