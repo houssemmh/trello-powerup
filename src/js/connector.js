@@ -106,6 +106,7 @@ console.log("money")
 window.TrelloPowerUp.initialize({
   'card-badges': function(t, options) {
     return t.card('all').then(function(card) {
+      console.log("card ",card.name)
       return t.get(card.id, 'shared', 'previousDates', { start: null, due: null })
         .then(function(previousDates) {
           // Check for changes in the start and due dates
