@@ -106,22 +106,26 @@ console.log("money")
 window.TrelloPowerUp.initialize({
   'card-badges': function(t, options) {
     return t.card('all').then(function(card) {
-      return t.get(card.id, 'shared', 'previousDates', { start: null, due: null })
+      return t.get(card.id, 'shared', 'previousDates')
         .then(function(previousDates) {
-          // Check for changes in the start and due dates
+
+          // If we don't have any data about the card, set the data
+          if (previousDates == null) {
+            t.set(card.id, 'shared', 'previousDates', { start: card.start, due: card.due });
+            // If the dates are different than null, 
+            if (card.start || card.due) {
+              console.log(`"${card.id}" "${card.name}": Current dates ${card.start} - ${card.due}`);
+            }
+          }
+          
           const startChanged = card.start !== previousDates.start;
           const dueChanged = card.due !== previousDates.due;
 
           // If there's a change, log the change details
           if (startChanged || dueChanged) {
             console.log(`"${card.id}" "${card.name}": Date changed from ${previousDates.start} - ${previousDates.due} to ${card.start} - ${card.due}`);
-          
-          } else if (card.start || card.due) {
-            console.log(`"${card.id}" "${card.name}": Current dates ${card.start} - ${card.due}`);
-          }
-
-          // Update stored dates
-          t.set(card.id, 'shared', 'previousDates', { start: card.start, due: card.due });
+            t.set(card.id, 'shared', 'previousDates', { start: card.start, due: card.due });
+          }        
 
           return [];
         });
