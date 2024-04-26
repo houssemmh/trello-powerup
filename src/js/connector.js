@@ -112,14 +112,12 @@ window.TrelloPowerUp.initialize({
           const startChanged = card.start !== previousDates.start;
           const dueChanged = card.due !== previousDates.due;
 
-          // Always log the current dates
-          if (card.start || card.due) {
-            console.log(`"${card.id}" "${card.name}": Current dates ${card.start} - ${card.due}`);
-          }
-
           // If there's a change, log the change details
           if (startChanged || dueChanged) {
             console.log(`"${card.id}" "${card.name}": Date changed from ${previousDates.start} - ${previousDates.due} to ${card.start} - ${card.due}`);
+          
+          } else if (card.start || card.due) {
+            console.log(`"${card.id}" "${card.name}": Current dates ${card.start} - ${card.due}`);
           }
 
           // Update stored dates
