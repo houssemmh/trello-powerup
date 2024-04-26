@@ -109,14 +109,14 @@ window.TrelloPowerUp.initialize({
       return t.get(card.id, 'shared', 'previousDates', { start: null, due: null } )
         .then(function(previousDates) {
           if (card.start || card.due) {
-              console.log(`Initial date - "${card.id}" "${card.name}": Current dates ${card.start} - ${card.due}`);
+            dateChanged(card)
           }
 
           const startChanged = card.start !== previousDates.start;
           const dueChanged = card.due !== previousDates.due;
 
           if (startChanged || dueChanged) {
-            console.log(`date change - "${card.id}" "${card.name}": Date changed from ${previousDates.start} - ${previousDates.due} to ${card.start} - ${card.due}`);
+            dateChanged(card)
           }
           
           t.set(card.id, 'shared', 'previousDates', { start: card.start, due: card.due });
@@ -128,3 +128,9 @@ window.TrelloPowerUp.initialize({
 }, {
   refresh: true
 });
+
+
+
+const dateChanged = (card) => {
+  console.log(`"${card.id}" "${card.name}": Current dates ${card.start} - ${card.due}`);
+};
