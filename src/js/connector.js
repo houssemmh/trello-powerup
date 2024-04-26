@@ -114,7 +114,7 @@ window.TrelloPowerUp.initialize({
             t.set(card.id, 'shared', 'previousDates', { start: card.start, due: card.due });
             // If the dates are different than null, 
             if (card.start || card.due) {
-              console.log(`"${card.id}" "${card.name}": Current dates ${card.start} - ${card.due}`);
+              console.log(`Initial date - "${card.id}" "${card.name}": Current dates ${card.start} - ${card.due}`);
             }
           }
           
@@ -123,9 +123,9 @@ window.TrelloPowerUp.initialize({
 
           // If there's a change, log the change details
           if (startChanged || dueChanged) {
-            console.log(`"${card.id}" "${card.name}": Date changed from ${previousDates.start} - ${previousDates.due} to ${card.start} - ${card.due}`);
+            console.log(`date change - "${card.id}" "${card.name}": Date changed from ${previousDates.start} - ${previousDates.due} to ${card.start} - ${card.due}`);
             t.set(card.id, 'shared', 'previousDates', { start: card.start, due: card.due });
-          }        
+          }         
 
           return [];
         });
