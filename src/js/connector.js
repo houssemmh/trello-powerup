@@ -108,6 +108,7 @@ window.TrelloPowerUp.initialize({
     return t.card('all').then(function(card) {
       return t.get(card.id, 'shared', 'previousDates')
         .then(function(previousDates) {
+          console.log(previousDates)
 
           // If we don't have any data about the card, set the data
           if (previousDates == null) {
